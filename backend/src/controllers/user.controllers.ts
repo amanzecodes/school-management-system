@@ -473,9 +473,13 @@ export class User {
 
       // Calculate totals
       const totalStudents = teacher.supervisedClass?.students.length || 0;
+      /**
+       * A set return unique values, so we just want to get a single instance of each subject
+       */
       const uniqueSubjects = new Set(
         teacher.assignments.map((a) => a.subject.id)
       );
+      
       const totalUniqueSubjects = uniqueSubjects.size;
 
       return res.status(200).json({
