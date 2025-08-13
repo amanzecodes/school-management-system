@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  role      Role
+  firstName String
+  lastName  String
+  gender    Gender
+  regNo     String   @unique
+  isActive  Boolean  @default(true)
+  password  String
+  createdAt DateTime @default(now())
+  student   Student?
+  teacher   Teacher?
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  id          String       @id @default(cuid())
+  user        User         @relation(fields: [userId], references: [id])
+  grades      Grade[]
+  userId      String       @unique
+  class       Class?       @relation(fields: [classId], references: [id])
+  classId     String? // optional to allow no class assigned yet
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  attendances Attendance[]
+  results     Result[]
+  examScores  ExamScore[]
+  testScores  TestScore[]
+}
+
+model Teacher {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  // Optional one-to-one: supervised class as Class Teacher
+  supervisedClass Class? @relation("ClassTeacher")
+
+  assignments TeachingAssignment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Department {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  classes   Class[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Class {
+  id   String @id @default(cuid())
+  name String
+
+  department   Department? @relation(fields: [departmentId], references: [id])
+  departmentId String? // nullable for junior classes
+
+  // One-to-one Class Teacher relation
+  classTeacher   Teacher @relation("ClassTeacher", fields: [classTeacherId], references: [id])
+  classTeacherId String  @unique
+
+  students    Student[]
+  assignments TeachingAssignment[]
+  attendances Attendance[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model Subject {
+  id          String               @id @default(cuid())
+  name        String
+  assignments TeachingAssignment[]
+  grades      Grade[]
+  results     Result[]
+  examScores  ExamScore[]
+  testScores  TestScore[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model TeachingAssignment {
+  id        String   @id @default(cuid())
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+  class     Class    @relation(fields: [classId], references: [id])
+  classId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([teacherId, subjectId, classId])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Grade {
+  id        String   @id @default(cuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+  score     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, subjectId])
+}
+
+model Week {
+  id          String       @id @default(cuid())
+  startDate   DateTime
+  endDate     DateTime
+  attendances Attendance[]
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  class     Class    @relation(fields: [classId], references: [id])
+  classId   String
+  week      Week     @relation(fields: [weekId], references: [id])
+  weekId    String
+  present   Boolean
+  date      DateTime @default(now())
+
+  @@unique([studentId, classId, weekId])
+}
+
+model Result {
+  id         String  @id @default(cuid())
+  student    Student @relation(fields: [studentId], references: [id])
+  studentId  String
+  average    Float
+  totalScore Float
+  subject    Subject @relation(fields: [subjectId], references: [id])
+  subjectId  String
+
+  @@unique([studentId, subjectId])
+}
+
+model ExamScore {
+  id        String   @id @default(cuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+  score     Float
+  date      DateTime @default(now())
+
+  @@unique([studentId, subjectId])
+}
+
+model TestScore {
+  id        String   @id @default(cuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+  test      Test
+  score     Float
+  date      DateTime @default(now())
+
+  @@unique([subjectId, test, studentId])
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Test {
+  TEST1
+  TEST2
+}
