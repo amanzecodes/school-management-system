@@ -56,32 +56,34 @@ const LoginPage = () => {
     }
   }
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-screen">
       {/* Left side - Decorative Background */}
-      <div className="hidden md:flex md:w-1/2 bg-[#601ef9] relative overflow-hidden">
-        <div className="absolute top-10 left-10 h-16 w-16 bg-yellow-400 rotate-45"></div>
-        <div className="absolute top-1/4 left-1/3 h-20 w-20 bg-teal-400 rounded-lg"></div>
-        <div className="absolute bottom-10 left-1/4 h-24 w-24 bg-purple-500 rounded-full"></div>
-        <div className="absolute top-2/3 left-2/3 h-40 w-40 bg-indigo-700 rounded-full border-8 border-purple-400"></div>
-        <div className="absolute bottom-16 right-10 h-28 w-28 border-4 border-yellow-400 rounded-full"></div>
-        <div className="absolute inset-0 opacity-10"></div>
+
+      <div className="hidden md:flex md:w-1/2 bg-black relative overflow-hidden z-10">
+        <Image
+          src="https://studentspace.org.uk/assets/images/student-space_illustrations_life-as-a-black-student_1_0.png"
+          alt="three students sitting on a desk"
+          fill
+          className="object-cover w-full h-full absolute inset-0 opacity-70"
+          priority
+        />
       </div>
 
       {/* Right side - Login Form */}
-      <div className="flex flex-col px-8 w-full md:w-1/2 py-10">
+      <div className="flex flex-col items-center justify-center px-8 w-full md:w-1/2 py-10">
         <div className="max-w-md mx-auto w-full">
           <div className="flex justify-center items-center mb-8">
             <Image
-              src="/school-logo.png"
-              width={250}
-              height={250}
+              src="/school.avif"
+              width={200}
+              height={200}
               alt="School Logo"
-              className="object-contain"
+              className="object-contain rounded-full"
               priority
             />
           </div>
           {/* Login Form Content */}
-          <div className="text-center">
+          <div className="text-center flex flex-col justify-between">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Welcome Back
             </h1>
@@ -99,13 +101,16 @@ const LoginPage = () => {
                       <FormItem>
                         <FormControl>
                           <div className="relative flex items-center justify-center">
-                            <FaRegUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                          
-                          <input
-                            placeholder="Registration No."
-                            {...field}
-                            className="w-full pl-10 pr-4 border-2 border-gray-300 p-4 rounded-md h-[55px] focus:outline-none focus:ring-2 focus:ring-[#601ef9]/50"
-                          />
+                            <FaRegUser
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                              size={18}
+                            />
+
+                            <input
+                              placeholder="Registration No."
+                              {...field}
+                              className="w-full pl-10 pr-4 border-2 border-gray-300 p-4 rounded-md h-[55px] focus:outline-none focus:ring-2 focus:ring-[#000]/5"
+                            />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -120,13 +125,16 @@ const LoginPage = () => {
                       <FormItem>
                         <FormControl>
                           <div className="relative">
-                            <MdPassword className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                          <input
-                            type="password"
-                            placeholder="Password"
-                            {...field}
-                            className="w-full pl-10 pr-4 border-2 border-gray-300 p-4 rounded-md h-[55px] focus:outline-none focus:ring-2 focus:ring-[#601ef9]/50"
-                          />
+                            <MdPassword
+                              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                              size={18}
+                            />
+                            <input
+                              type="password"
+                              placeholder="Password"
+                              {...field}
+                              className="w-full pl-10 pr-4 border-2 border-gray-300 p-4 rounded-md h-[55px] focus:outline-none focus:ring-2 focus:ring-[#000]/5"
+                            />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -139,13 +147,13 @@ const LoginPage = () => {
                   <Button
                     disabled={loading}
                     type="submit"
-                    className="w-full bg-[#601ef9] hover:bg-[#501ef9] h-[55px] text-white cursor-pointer"
+                    className="w-full h-[55px] text-white cursor-pointer bg-gray-950 hover:bg-gray-950/90"
                   >
                     {loading ? (
                       <div className="flex items-center">
                         <div
                           role="status"
-                          className="w-5 h-5 border-2 border-gray-300 border-t-[#601ef9] rounded-full animate-spin"
+                          className="w-5 h-5 border-2 border-gray-300 border-t-[#000] rounded-full animate-spin"
                         >
                           <span className="sr-only">Loading...</span>
                         </div>
