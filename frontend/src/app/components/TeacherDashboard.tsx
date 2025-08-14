@@ -12,8 +12,6 @@ import {
   HiEye,
 } from "react-icons/hi2";
 import { useTeacherDashboard, useUSer } from "../../../hooks/userData";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../lib/axiosInstance";
 import { redirect } from "next/navigation";
 import {
   HeaderSkeleton,
