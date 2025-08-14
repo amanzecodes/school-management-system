@@ -20,6 +20,10 @@ router.get("/announcements", protectRoute, (req, res) => {
   userController.getAnnouncements(req, res);
 });
 
+router.post("/post/announcement", protectRoute, (req, res) => {
+  userController.postAnnouncement(req, res)
+})
+
 router.put("/profile", protectRoute, (req, res) => {
   userController.updateProfile(req, res);
 });

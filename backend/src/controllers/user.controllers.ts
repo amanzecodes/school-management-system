@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
+import { sendTelegramMessage } from "../lib/telegram";
+import { ApiResponse } from "../interface/api";
 
 export class User {
   // Get current authenticated user's information
@@ -545,6 +547,69 @@ export class User {
         message:
           "An unexpected error occurred while retrieving dashboard data.",
         code: "INTERNAL_ERROR",
+      });
+    }
+  }
+
+  public async postAnnouncement(
+    req: Request<
+      {},
+      {},
+      {
+        title: string;
+        content: string;
+      }
+    >,
+    res: Response
+  ) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({
+          success: false,
+          error: "Authentication required",
+          message: "You must be logged in to access this resource.",
+          code: "NOT_AUTHENTICATED",
+        });
+      }
+      const { title, content } = req.body;
+
+      if (!title || !content) {
+        return res.status(400).json({
+          message: "Please Enter All the Fields",
+          error: "INCOMPLETE FIELDS",
+          success: false,
+          code: "INVALID FIELDS",
+        });
+      }
+        const sanitizedTitle = title.trim();
+        const sanitizedContent = content.trim();
+
+        const announcement = await prisma.announcement.create({
+          data: {
+            title: sanitizedTitle,
+            content: sanitizedContent,
+          },
+        });
+        try {
+          await sendTelegramMessage(`Someone just created a new announcement`);
+        } catch (err) {
+          console.error(
+            "Telegram notify failed:",
+            (err as any)?.message || err
+          );
+        }
+        return res.status(201).json({
+          success: true,
+          message: "Announcement posted",
+          announcement,
+        });
+      }
+     catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+        error: "INTERNAL_SERVER_ERROR",
+        code: "SERVER_ERROR",
       });
     }
   }
