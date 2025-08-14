@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "../lib/fetcher";
 import { CurrentUser } from "../interface";
-import { TeacherDashboardData } from "@/app/components/TeacherDashboard";
+import { TeacherDashboardData } from "../interface";
 import { AxiosError } from "axios";
 
 

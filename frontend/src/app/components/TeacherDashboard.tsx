@@ -22,54 +22,6 @@ import {
   RecentGradesTableSkeleton,
 } from "./skeletons/DashboardSkeletons";
 import { useAnnouncement } from "../../../hooks/useData";
-
-interface TeacherClass {
-  id: string;
-  name: string;
-  studentCount: number;
-  students: Array<{
-    id: string;
-    name: string;
-    regNo: string;
-  }>;
-}
-
-interface RecentGrade {
-  id: string;
-  studentName: string;
-  studentRegNo: string;
-  subjectName: string;
-  score: number;
-  createdAt: string;
-}
-
-interface TestScore {
-  studentId: string;
-  studentName: string;
-  studentRegNo: string;
-  subjectName: string;
-  test1Score: number | null;
-  test2Score: number | null;
-  test1Date: string | null;
-  test2Date: string | null;
-}
-
-export interface TeacherDashboardData {
-  teacher: {
-    id: string;
-    classes: TeacherClass[];
-    subjects: Array<{
-      id: string;
-      name: string;
-    }>;
-    totalClasses: number;
-    totalSubjects: number;
-    totalStudents: number;
-  };
-  recentGrades: RecentGrade[];
-  testScores: TestScore[];
-}
-
 const TeacherDashboard = () => {
   const { data: user, isError: userError, isLoading: userLoading } = useUSer();
 
