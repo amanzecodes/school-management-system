@@ -1,7 +1,8 @@
-import React from 'react'
-import { HiCalendar, HiSpeakerphone } from 'react-icons/hi'
-import { HiUser } from 'react-icons/hi2'
-import { useAnnouncement } from '../../../hooks/useData';
+import React from "react";
+import { HiCalendar, HiSpeakerphone } from "react-icons/hi";
+import { HiUser } from "react-icons/hi2";
+import { useAnnouncement } from "../../../hooks/useData";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const AnnouncementPage = () => {
   const { data, isLoading, isFetching } = useAnnouncement();
@@ -31,7 +32,7 @@ const AnnouncementPage = () => {
 
   return (
     <div>
-     <div className="mb-8">
+      <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <HiSpeakerphone className="h-6 w-6 text-gray-700" />
           <h1 className="text-2xl font-bold text-gray-900">Announcements</h1>
@@ -63,14 +64,22 @@ const AnnouncementPage = () => {
 
                 <div className="mb-4">
                   <p className="text-gray-700 leading-relaxed">
-                    <span dangerouslySetInnerHTML={{ __html: announcement.content }} />
+                    <span
+                      dangerouslySetInnerHTML={{ __html: announcement.content }}
+                    />
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div className="flex items-center text-sm text-gray-500">
-                    <HiUser className="h-4 w-4 mr-1.5" />
-                    <span className="font-medium">Mr. Fabiyi Tosin  (Principal)</span> 
+                    {/* <HiUser className="h-4 w-4 mr-1.5" /> */}
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <span className="ml-2 font-medium">
+                      Mr. Fabiyi Tosin (Principal)
+                    </span>
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <HiCalendar className="h-4 w-4 mr-1.5" />
@@ -101,8 +110,8 @@ const AnnouncementPage = () => {
           </div>
         )}
       </div>
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default AnnouncementPage
+export default AnnouncementPage;
