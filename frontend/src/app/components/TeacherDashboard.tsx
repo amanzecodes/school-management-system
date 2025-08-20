@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { HiMiniMegaphone } from "react-icons/hi2";
 import {
   HiAcademicCap,
   HiBookOpen,
@@ -15,20 +13,17 @@ import { useTeacherDashboard, useUSer } from "../../../hooks/userData";
 import { redirect } from "next/navigation";
 import {
   HeaderSkeleton,
-  AnnouncementSkeleton,
   StatsGridSkeleton,
   ClassesTableSkeleton,
   SubjectsTableSkeleton,
   RecentGradesTableSkeleton,
 } from "./skeletons/DashboardSkeletons";
-import { useAnnouncement } from "../../../hooks/useData";
+
 const TeacherDashboard = () => {
   const { data: user, isError: userError, isLoading: userLoading } = useUSer();
 
   const { data: dashboardData, isLoading: dashboardLoading } =
     useTeacherDashboard(user);
-
-  const { data: announcements, isLoading: announcementsLoading } = useAnnouncement();
 
   if (userError) {
     alert("User is not logged in, Please login to continue");
@@ -107,51 +102,17 @@ const TeacherDashboard = () => {
             </h1>
             <p className="text-gray-600 mt-1">A.B 10 High School</p>
           </div>
-          <Avatar className="h-12 w-12">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback className="bg-green-100 text-green-700">
-              {user?.firstName?.[0]}
-              {user?.lastName?.[0]}
-            </AvatarFallback>
-          </Avatar>
         </header>
       )}
 
       <div className="p-6 space-y-6">
-        {/* Announcements */}
-        {announcementsLoading || !announcements ? (
-          <AnnouncementSkeleton />
-        ) : (
-          announcements.length > 0 && (
-            <div className="bg-green-50 border border-green-200 p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <HiMiniMegaphone className="h-5 w-5 text-green-600" />
-                <p className="text-green-800 font-medium">
-                  Latest Announcement
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="font-bold text-green-900">
-                  {announcements[0].title}
-                </h3>
-                <p className="text-green-800">{announcements[0].content}</p>
-                <Link
-                  href="/announcements"
-                  className="text-gray-700 underline text-sm"
-                >
-                  View all announcements
-                </Link>
-              </div>
-            </div>
-          )
-        )}
 
         {/* Stats Cards */}
         {isDataLoading ? (
           <StatsGridSkeleton />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="bg-white p-6 border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">
@@ -161,13 +122,13 @@ const TeacherDashboard = () => {
                     {stats.totalClasses}
                   </p>
                 </div>
-                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <HiAcademicCap className="h-6 w-6 text-blue-600" />
+                <div className="h-12 w-12 bg-blue-100 flex items-center justify-center">
+                  <HiAcademicCap className="h-6 w-6" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="bg-white p-6  border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">
@@ -177,13 +138,13 @@ const TeacherDashboard = () => {
                     {stats.totalSubjects}
                   </p>
                 </div>
-                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <HiBookOpen className="h-6 w-6 text-green-600" />
+                <div className="h-12 w-12 bg-green-100 flex items-center justify-center">
+                  <HiBookOpen className="h-6 w-6" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="bg-white p-6 border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">
@@ -193,13 +154,13 @@ const TeacherDashboard = () => {
                     {stats.totalStudents}
                   </p>
                 </div>
-                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <HiUsers className="h-6 w-6 text-purple-600" />
+                <div className="h-12 w-12 bg-purple-100 flex items-center justify-center">
+                  <HiUsers className="h-6 w-6" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="bg-white p-6 border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">
@@ -209,8 +170,8 @@ const TeacherDashboard = () => {
                     {recentGrades.length}
                   </p>
                 </div>
-                <div className="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <HiTrophy className="h-6 w-6 text-yellow-600" />
+                <div className="h-12 w-12 bg-yellow-100  flex items-center justify-center">
+                  <HiTrophy className="h-6 w-6" />
                 </div>
               </div>
             </div>
@@ -225,7 +186,7 @@ const TeacherDashboard = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Classes Table */}
-            <div className="bg-white rounded-lg border border-gray-200">
+            <div className="bg-white border border-gray-200">
               <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -234,7 +195,7 @@ const TeacherDashboard = () => {
                   </h3>
                   <Link
                     href="/classes"
-                    className="text-gray-700 hover:text-gray-900 bg-black/5 hover:bg-black/10 p-2 rounded-sm text-sm font-medium transition duration-300"
+                    className="text-gray-700 hover:text-gray-900 p-2 text-sm font-medium transition duration-300"
                   >
                     View All
                   </Link>
@@ -246,7 +207,7 @@ const TeacherDashboard = () => {
                     {classes.map((cls) => (
                       <div
                         key={cls.id}
-                        className="border border-gray-200 rounded-lg p-4"
+                        className="border border-gray-200 p-4"
                       >
                         <div className="flex items-center justify-between">
                           <div>
@@ -259,7 +220,7 @@ const TeacherDashboard = () => {
                           </div>
                           <Link
                             href={`/classes/${cls.id}`}
-                            className="text-green-600 hover:text-green-700"
+                            className=""
                           >
                             <HiEye className="h-5 w-5" />
                           </Link>
@@ -276,7 +237,7 @@ const TeacherDashboard = () => {
             </div>
 
             {/* Subjects Table */}
-            <div className="bg-white rounded-lg border border-gray-200">
+            <div className="bg-white border border-gray-200">
               <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -285,7 +246,7 @@ const TeacherDashboard = () => {
                   </h3>
                   <Link
                     href="/subjects"
-                    className="text-gray-700 hover:text-gray-900 bg-black/5 hover:bg-black/10 p-2 rounded-sm text-sm font-medium"
+                    className="text-gray-700 hover:text-gray-900 p-2 text-sm font-medium"
                   >
                     View All
                   </Link>
@@ -297,14 +258,14 @@ const TeacherDashboard = () => {
                     {subjects.map((subject, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+                        className="flex items-center justify-between p-3 border border-gray-200"
                       >
                         <span className="font-medium text-gray-900">
                           {subject.name}
                         </span>
                         <Link
                           href={`/subjects/${subject.id}`}
-                          className="text-green-600 hover:text-green-700"
+                          className=""
                         >
                           <HiEye className="h-5 w-5" />
                         </Link>
@@ -325,7 +286,7 @@ const TeacherDashboard = () => {
         {isDataLoading ? (
           <RecentGradesTableSkeleton />
         ) : (
-          <div className="bg-white rounded-lg border border-gray-200">
+          <div className="bg-white border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -334,7 +295,7 @@ const TeacherDashboard = () => {
                 </h3>
                 <Link
                   href="/grades"
-                  className="text-gray-700 hover:text-gray-900 bg-black/5 hover:bg-black/10 p-2 rounded-sm text-sm font-medium"
+                  className="text-gray-700 hover:text-gray-900 p-2 text-sm font-medium"
                 >
                   View All
                 </Link>
@@ -368,7 +329,7 @@ const TeacherDashboard = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white divide-y-2 divide-gray-200">
                     {groupedTestScores.map((testScore, index) => (
                       <tr
                         key={`${testScore.studentId}-${testScore.subjectName}-${index}`}
@@ -377,7 +338,7 @@ const TeacherDashboard = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                           {testScore.studentName}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500">
                           {testScore.studentRegNo}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -393,7 +354,7 @@ const TeacherDashboard = () => {
                           {testScore.test1Score !== null &&
                           testScore.test2Score !== null ? (
                             <span
-                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              className={`inline-flex px-2 py-1 text-xs font-semibold ${
                                 testScore.test1Score + testScore.test2Score >=
                                 28
                                   ? "bg-green-100 text-green-800"
