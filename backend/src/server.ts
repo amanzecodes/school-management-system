@@ -5,6 +5,7 @@ import cors from "cors";
 import { Request, Response } from "express";
 import authRoutes from "./routes/auth.route";
 import userRoutes from "./routes/user.route";
+import actionRoutes from "./routes/action.route"
 import { testDatabaseConnection } from "./lib/database-test";
 
 dotenv.config();
@@ -28,25 +29,26 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/result-upload", actionRoutes)
 
 // Test database connection before starting server
 async function startServer() {
   try {
-    console.log("🚀 Starting server...");
+    console.log("Starting server...");
 
     // Test database connection
     const dbConnected = await testDatabaseConnection();
     if (!dbConnected) {
-      console.error("❌ Failed to connect to database. Server not started.");
+      console.error("Failed to connect to database. Server not started.");
       process.exit(1);
     }
 
     app.listen(PORT, () => {
-      console.log(`✅ Server is running on port ${PORT}`);
-      console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
+      console.log(`Server is running on port ${PORT}`);
+      console.log(`Frontend URL: ${process.env.FRONTEND_URL}`);
     });
   } catch (error) {
-    console.error("❌ Failed to start server:", error);
+    console.error("Failed to start server:", error);
     process.exit(1);
   }
 }
