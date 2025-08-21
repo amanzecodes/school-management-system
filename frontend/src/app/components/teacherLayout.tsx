@@ -68,27 +68,27 @@ const TeacherLayout = ({ children }: { children: React.ReactNode }) => {
           onClick={() => setSidebarOpen(false)}
         />
       )}
-
+      {/* left-1 top-1 pb-4 h-[calc(100vh-0.5rem)] */}
       <aside
         id="sidebar"
         className={`
-          fixed left-1 top-1 pb-4 h-[calc(100vh-0.5rem)] 
+          fixed min-h-screen
           flex flex-col bg-primary border-r border-gray-900 px-4 py-10
           transition-transform duration-300 ease-in-out z-50
-      w-60 md:w-60 lg:w-80
+      w-64 md:w-60 lg:w-80
       ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
         `}
       >
-        <div className="flex items-center justify-center shrink-0 border-b border-white/10 p-4">
+        <div className="flex items-center justify-center shrink-0 border border-white/10 p-4">
           <h1
             className={`text-lg font-semibold text-white flex gap-4 md:text-lg sm:text-base`}
           >
             {/* <SlUser size={22} /> */}
-            <span className="text-sm md:text-base">Staff Dashboard</span>
+            <span className="text-sm md:text-2xl">STAFF DASHBOARD</span>
           </h1>
         </div>
 
-        <nav className="flex-1 mt-4 py-4 space-y-6">
+        <nav className="flex-1 mt-4 py-10 space-y-6">
           <NavLink
             href="/dashboard"
             icon={<MdOutlineSpaceDashboard size={20} />}
@@ -118,7 +118,7 @@ const TeacherLayout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => setSidebarOpen(false)}
           />
 
-          <div className="shrink-0 border-t border-white/10 md:pt-60 pt-52">
+          <div className="shrink-0  border-white/10 lg:pt-48 md:pt-[600px] pt-20">
             <div>
               <button
                 onClick={() => Logout()}
