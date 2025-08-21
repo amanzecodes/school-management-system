@@ -52,12 +52,12 @@ export class User {
     }
   }
 
-  // Get user by ID (for admin or self-access)
+  
   public async getUserById(req: Request, res: Response) {
     try {
       const { userId } = req.params;
 
-      // Validate userId parameter
+      
       if (!userId) {
         return res.status(400).json({
           success: false,
@@ -67,7 +67,7 @@ export class User {
         });
       }
 
-      // Check if user is authenticated
+      
       if (!req.user) {
         return res.status(401).json({
           success: false,

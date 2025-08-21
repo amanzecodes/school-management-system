@@ -8,18 +8,13 @@ import { sendTelegramMessage } from "../lib/telegram";
 
 export class Auth {
   public async AddUser(
-    req: Request<
-      {},
-      {},
+    req: Request<{},{},
       {
         firstName: string;
         lastName: string;
         role: "STUDENT" | "TEACHER" | "ADMIN";
         gender?: "MALE" | "FEMALE"; // Required for students
-      }
-    >,
-    res: Response
-  ) {
+      }>,res: Response) {
     try {
       const { firstName, lastName, role, gender } = req.body;
 
