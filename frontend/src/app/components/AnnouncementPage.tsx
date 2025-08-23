@@ -1,6 +1,5 @@
 import React from "react";
 import { HiCalendar, HiSpeakerphone } from "react-icons/hi";
-import { HiUser } from "react-icons/hi2";
 import { useAnnouncement } from "../../../hooks/useData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
